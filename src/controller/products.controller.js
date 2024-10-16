@@ -82,7 +82,7 @@ const oneProduct = async (req, res) => {
     try {
         const id = parseInt(req.params.id, 10);
 
-        if(!id) {
+        if (!id) {
             return res.status(400).json({
                 status: "Error",
                 message: "Faltan datos"
@@ -90,39 +90,51 @@ const oneProduct = async (req, res) => {
         }
 
         const product = await prisma.product.findUnique({
-            where: { id: id }
+            where: { id: id },
+            include: {
+                brand: true // Incluir toda la información de la marca
+            }
         });
+
+        if (!product) {
+            return res.status(404).json({
+                status: "Error",
+                message: "Producto no encontrado"
+            });
+        }
 
         res.status(200).json({
             status: "Success",
             message: "Se ha encontrado el producto",
             product
-        })
-    }
-    catch(error) {
+        });
+    } catch (error) {
         console.log(error);
-        res.status(200).json({
+        res.status(500).json({
             status: "Error",
             message: "No se pudo encontrar el producto"
-        })
+        });
     }
-}
+};
 
 
 const getProducts = async (req, res) => {
     try {
-        const products = await prisma.product.findMany();
+        const products = await prisma.product.findMany({
+            include: {
+                brand: true // Incluir toda la información de la marca
+            }
+        });
 
         res.status(200).json({
             status: "Success",
-            message: "Proyectos",
+            message: "Productos",
             products
-        })
-    }
-    catch(error) {
+        });
+    } catch (error) {
         res.status(500).json({ status: "Error", message: error.message });
     }
-}
+};
 
 
 const updateProduct = async (req, res) => {
