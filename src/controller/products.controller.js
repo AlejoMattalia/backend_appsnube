@@ -119,22 +119,39 @@ const oneProduct = async (req, res) => {
 
 
 const getProducts = async (req, res) => {
+    // Obtener el número de página desde los parámetros de la URL (req.params.page)
+    const page = parseInt(req.params.page) || 1;
+    const pageSize = 10; // Definir el tamaño de la página (10 productos por página)
+
     try {
+        // Obtener el total de productos
+        const totalProducts = await prisma.product.count();
+
+        // Calcular cuántos productos saltar basándonos en la página actual
         const products = await prisma.product.findMany({
+            skip: (page - 1) * pageSize, // Cuántos productos saltar
+            take: pageSize, // Cuántos productos tomar
             include: {
                 brand: true // Incluir toda la información de la marca
             }
         });
 
+        // Calcular el número total de páginas
+        const totalPages = Math.ceil(totalProducts / pageSize);
+
         res.status(200).json({
             status: "Success",
             message: "Productos",
+            currentPage: page,
+            totalPages,
+            totalProducts,
             products
         });
     } catch (error) {
         res.status(500).json({ status: "Error", message: error.message });
     }
 };
+
 
 
 const updateProduct = async (req, res) => {
