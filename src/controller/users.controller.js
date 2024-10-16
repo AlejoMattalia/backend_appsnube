@@ -25,8 +25,7 @@ const register = async (req, res) => {
             });
         }
 
-
-        //Verificar si el usuario ya existe
+        // Verificar si el usuario ya existe
         const existingUser = await prisma.user.findUnique({
             where: { email: params.email }
         });
@@ -39,11 +38,10 @@ const register = async (req, res) => {
         }
 
         // Encriptar la contraseña
-        let pwd = await bcrypt.hash(params.password, 10)
-        params.password = pwd;
+        const hashedPassword = await bcrypt.hash(params.password, 10);
+        params.password = hashedPassword;
 
-
-        //Crear el usuario
+        // Crear el usuario
         const user = await prisma.user.create({
             data: params
         });
@@ -51,10 +49,12 @@ const register = async (req, res) => {
         // Crear el token
         const token = createToken(user);
 
-        // Si la validación es exitosa
+        // Si la validación es exitosa, devolver el usuario sin la contraseña
+        const { password, ...userWithoutPassword } = user;
+
         res.status(200).json({
             message: "Usuario creado",
-            user,
+            user: userWithoutPassword,
             token
         });
     } catch (err) {
