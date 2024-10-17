@@ -5,7 +5,7 @@ const createOrder = async (req, res) => {
     try {
         const params = req.body;
 
-        if(!params.user_id || params.products === undefined) {
+        if(!params.user_id || params.products === undefined || !params.total) {
             return res.status(400).json({
                 status: "Error",
                 message: "Faltan datos"

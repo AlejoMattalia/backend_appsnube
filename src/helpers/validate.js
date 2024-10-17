@@ -84,6 +84,11 @@ const validateOrder = (params) => {
     if (typeof params.user_id !== 'number' || isNaN(params.user_id) || params.user_id <= 0) {
         errors.push('User ID inválido');
     }
+
+    // Validar total
+    if (typeof params.total !== 'number' || isNaN(params.total) || params.total <= 0) {
+        errors.push('Total inválido');
+    }
   
     // Validar el array de productos
     if (!Array.isArray(params.products) || params.products.length === 0) {

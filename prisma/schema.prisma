@@ -13,7 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id       Int     @id @default(autoincrement())
   name     String
@@ -47,6 +46,8 @@ model Order {
   reference  String         @unique
   user       User           @relation(fields: [user_id], references: [id])
   user_id    Int
+  total      Float          @default(0) // Precio total de la orden
+  date       DateTime       @default(now())
   orderItems OrderProduct[]
 }
 
