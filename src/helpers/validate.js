@@ -45,14 +45,13 @@ const validateBrand = (params) => {
 
 
 const validateProduct = (params) => {
-    let name = !validator.isEmpty(params.name) && validator.isLength(params.name, { min: 3 });
-    let description = !validator.isEmpty(params.description) && validator.isLength(params.description, { min: 3 });
-    let image_url = !validator.isEmpty(params.image_url) && validator.isURL(params.image_url);
-    let price = !validator.isEmpty(params.price) && validator.isDecimal(params.price);
-    let stock = !validator.isEmpty(params.stock) && validator.isDecimal(params.stock);
-    let brand_id = !validator.isEmpty(params.brand_id) && validator.isDecimal(params.brand_id);
+    let name = !validator.isEmpty(String(params.name)) && validator.isLength(String(params.name), { min: 3 });
+    let description = !validator.isEmpty(String(params.description)) && validator.isLength(String(params.description), { min: 3 });
+    let image_url = !validator.isEmpty(String(params.image_url)) && validator.isURL(String(params.image_url));
+    let price = !validator.isEmpty(String(params.price)) && validator.isDecimal(String(params.price));
+    let stock = !validator.isEmpty(String(params.stock)) && validator.isDecimal(String(params.stock));
+    let brand_id = !validator.isEmpty(String(params.brand_id)) && validator.isDecimal(String(params.brand_id));
 
-    // Crear un arreglo para almacenar mensajes de error
     const errors = [];
 
     if (!name) {
@@ -74,7 +73,6 @@ const validateProduct = (params) => {
         errors.push("ID inválido");
     }
 
-    // Si hay errores, retornarlos; si no, retornar null
     return errors.length > 0 ? errors : null;
 }
 
