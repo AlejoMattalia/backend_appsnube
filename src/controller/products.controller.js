@@ -70,7 +70,7 @@ const createProduct = async (req, res) => {
     }
     catch(error) {
         console.log(error);
-        res.status(400).json({
+        res.status(500).json({
             status: "Error",
             message: "No se pudo crear el producto"
         })
@@ -206,7 +206,7 @@ const updateProduct = async (req, res) => {
     }
     catch(error) {
         console.log(error);
-        res.status(200).json({
+        res.status(500).json({
             status: "Error",
             message: "No se pudo actualizar el producto"
         })
@@ -249,7 +249,7 @@ const deleteProduct = async (req, res) => {
     }
     catch(error) {
         console.log(error);
-        res.status(200).json({
+        res.status(500).json({
             status: "Error",
             message: "No se pudo eliminar el producto"
         })

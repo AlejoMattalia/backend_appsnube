@@ -52,7 +52,7 @@ const createBrand = async (req, res) => {
     }
     catch (error) {
         console.log(error);
-        res.status(200).json({
+        res.status(500).json({
             status: "Error",
             message: "No se pudo crear la marca"
         })
