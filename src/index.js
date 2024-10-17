@@ -3,7 +3,6 @@ import express from 'express';
 import dotenv from "dotenv";
 
 dotenv.config(); 
-console.log("Secret desde .env:", process.env.SECRET);
 
 //Mensaje de inicio de la app
 console.log('App inciada con exito');
