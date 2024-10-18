@@ -4,11 +4,11 @@ Este repositorio contiene el backend del challenge de AppNube, que permite a los
 
 
 
-## URL del Backend en AWS
+## URL del Backend en Render
 
-El backend está desplegado en un servidor EC2 de AWS. Puedes acceder a él en la siguiente URL:
+El backend está desplegado en Render. Puedes acceder a él en la siguiente URL:
 
-- http://ec2-18-228-24-176.sa-east-1.compute.amazonaws.com/
+- https://backend-appsnube.onrender.com/
 
 ## Tecnologías y Librerías Utilizadas
 
