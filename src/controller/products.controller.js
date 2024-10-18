@@ -282,11 +282,9 @@ const updateStock = async (req, res) => {
             });
         }
 
-        const newStock = existProduct.stock - params.stock;
-
         const product = await prisma.product.update({
             where: { id: +id },
-            data: { stock: newStock }
+            data: params
         });
 
         res.status(200).json({
