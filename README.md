@@ -25,6 +25,15 @@ El backend está desplegado en un servidor EC2 de AWS. Puedes acceder a él en l
 ## Base de Datos
 La base de datos utilizada fue SQLITE
 
+## ORM (Prisma)
+
+El backend utiliza Prisma como ORM para facilitar la conexión con la base de datos. Prisma permite manejar las consultas y operaciones en la base de datos de manera eficiente y con un enfoque orientado a objetos. Se utiliza para gestionar usuarios, productos, marcas y órdenes.
+
+Para configurar Prisma:
+1. Instala el cliente con `npm install @prisma/client`.
+2. Define el esquema de tu base de datos en el archivo `prisma/schema.prisma`.
+3. Ejecuta las migraciones con `npx prisma migrate dev` para crear las tablas en la base de datos.
+
 ## Rutas Principales
 
 Las siguientes rutas están disponibles en el backend:
@@ -66,14 +75,6 @@ Los usuarios pueden crear órdenes de compra al agregar productos a su carrito. 
 - `POST /api/order/create_order`: Crear una nueva orden de compra.
 - `GET /api/order/list_orders`: Obtener una lista de todas las órdenes (solo admins).
 
-## ORM (Prisma)
-
-El backend utiliza Prisma como ORM para facilitar la conexión con la base de datos. Prisma permite manejar las consultas y operaciones en la base de datos de manera eficiente y con un enfoque orientado a objetos. Se utiliza para gestionar usuarios, productos, marcas y órdenes.
-
-Para configurar Prisma:
-1. Instala el cliente con `npm install @prisma/client`.
-2. Define el esquema de tu base de datos en el archivo `prisma/schema.prisma`.
-3. Ejecuta las migraciones con `npx prisma migrate dev` para crear las tablas en la base de datos.
 
 ## Cómo Levantar el Proyecto
 
