@@ -103,7 +103,11 @@ const listOrders = async (req, res) => {
                 user: true, // Incluir el usuario aunque pueda ser null
                 orderItems: {
                     include: {
-                        product: true,
+                        product: {
+                            select: {
+                                name: true, // Solo obtener el nombre del producto
+                            },
+                        },
                     },
                 },
             },
