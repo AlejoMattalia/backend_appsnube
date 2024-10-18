@@ -100,30 +100,32 @@ const listOrders = async (req, res) => {
     try {
         const orders = await prisma.order.findMany({
             include: {
-                user: {
-                    select: {
-                        name: true,
-                        email: true,
-                    }
-                },
+                user: true, // Incluir el usuario aunque pueda ser null
                 orderItems: {
                     include: {
-                        product: true, // Incluir todos los datos del producto
-                    }
+                        product: true,
+                    },
                 },
             },
         });
 
+        // Mapear los resultados y asegurarse de que el usuario no sea null
+        const sanitizedOrders = orders.map(order => ({
+            ...order,
+            user: order.user ? { name: order.user.name, email: order.user.email } : null, // Si no hay usuario, poner null
+        }));
+
         res.status(200).json({
             status: "Success",
-            message: "Se han encontrado las ordenes",
-            orders
+            message: "Se han encontrado las órdenes",
+            orders: sanitizedOrders,
         });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ status: "Error", message: "Error al encontrar las ordenes" });
+        res.status(500).json({ status: "Error", message: "Error al encontrar las órdenes" });
     }
 };
+
 
 
 export default { createOrder, listOrders }
