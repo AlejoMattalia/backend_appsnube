@@ -59,6 +59,7 @@ Los administradores tienen acceso completo para gestionar las marcas de producto
 - `GET /api/brand/get_brands`: Obtener una lista de todas las marcas disponibles.
 - `PATCH /api/brand/update_brand/:id`: Actualizar una marca específica.
 - `DELETE /api/brand/delete_brand/:id`: Eliminar una marca.
+- `PATCH /api/product/update_stock/:id`: Actualizar stock
 
 ### 3. **Productos**
 
