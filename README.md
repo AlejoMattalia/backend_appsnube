@@ -22,6 +22,8 @@ El backend está desplegado en un servidor EC2 de AWS. Puedes acceder a él en l
 - **validator**: Para la validación de entradas, como correos electrónicos y otros datos de formularios.
 - **nodemon** (devDependency): Herramienta de desarrollo para reiniciar el servidor automáticamente cuando hay cambios en el código.
 
+## Base de Datos
+La base de datos utilizada fue SQLITE
 
 ## Rutas Principales
 
@@ -54,7 +56,7 @@ Los administradores tienen acceso completo para gestionar las marcas de producto
 Los usuarios y administradores pueden acceder a los productos. Los administradores pueden crear, actualizar o eliminar productos:
 - `POST /api/product/create_product`: Crear un nuevo producto (solo admins).
 - `GET /api/product/one_product/:id`: Obtener los detalles de un producto específico.
-- `GET /api/product/get_products`: Obtener una lista de todos los productos disponibles.
+- `GET /api/product/get_products/:page?`: Obtener una lista de todos los productos disponibles.
 - `PATCH /api/product/update_product/:id`: Actualizar un producto específico (solo admins).
 - `DELETE /api/product/delete_product/:id`: Eliminar un producto (solo admins).
 
