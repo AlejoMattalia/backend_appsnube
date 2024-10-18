@@ -256,10 +256,58 @@ const deleteProduct = async (req, res) => {
     }
 }
 
+
+const updateStock = async (req, res) => {
+    try {
+        const params = req.body;
+        const id = req.params.id;
+
+        if(!params || !id) {
+            return res.status(400).json({
+                status: "Error",
+                message: "Faltan datos"
+            });
+        }
+
+
+        //verifica si el producto existe
+        const existProduct = await prisma.product.findUnique({
+            where: { id: +id }
+        });
+
+        if (!existProduct) {
+            return res.status(404).json({
+                status: "Error",
+                message: "El producto no existe"
+            });
+        }
+
+        const newStock = existProduct.stock - params.stock;
+
+        const product = await prisma.product.update({
+            where: { id: +id },
+            data: { stock: newStock }
+        });
+
+        res.status(200).json({
+            status: "Success",
+            message: "Se ha actualizado el stock",
+            product
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: "Error",
+            message: "No se pudo actualizar el stock"
+        })       
+    }
+}
+
 export default {
     createProduct,
     oneProduct,
     getProducts,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    updateStock
 }
