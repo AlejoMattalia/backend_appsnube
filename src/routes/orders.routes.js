@@ -4,7 +4,7 @@ import ordersController from "../controller/orders.controller.js"
 const router = Router();
 
 
-router.post("/create_order", auth, ordersController.createOrder)
+router.post("/create_order", ordersController.createOrder)
 router.get("/list_orders", authAdmin, ordersController.listOrders)
 
 
