@@ -5,13 +5,12 @@ const createOrder = async (req, res) => {
     try {
         const params = req.body;
 
-        if(!params.user_id || params.products === undefined || !params.total) {
+        if (!params.user_id || params.products === undefined || !params.total) {
             return res.status(400).json({
                 status: "Error",
                 message: "Faltan datos"
             });
         }
-
 
         // Validar los parámetros del usuario
         const validationErrors = validateOrder(params);
@@ -22,8 +21,7 @@ const createOrder = async (req, res) => {
             });
         }
 
-
-        //Verificar si la persona existe
+        // Verificar si la persona existe
         const existUser = await prisma.user.findUnique({
             where: { id: params.user_id }
         });
@@ -35,8 +33,7 @@ const createOrder = async (req, res) => {
             });
         }
 
-
-        //Verificar si los productos existen
+        // Verificar si los productos existen
         const existProducts = await prisma.product.findMany({
             where: { id: { in: params.products.map(product => product.product_id) } }
         });
@@ -48,13 +45,14 @@ const createOrder = async (req, res) => {
             });
         }
 
-        //crear referencia
+        // Crear referencia
         const reference = Math.random().toString(36).substring(2, 12);
 
-        //verificar que no exista una orden con el mismo referencia
+        // Verificar que no exista una orden con la misma referencia
         const existOrder = await prisma.order.findUnique({
             where: { reference: reference }
         });
+
         if (existOrder) {
             return res.status(400).json({
                 status: "Error",
@@ -62,38 +60,39 @@ const createOrder = async (req, res) => {
             });
         }
 
+        // Crear la orden con el total incluido
         const order = await prisma.order.create({
             data: {
-              reference,
-              user: {
-                connect: { id: params.user_id }, // Conecta la orden con el usuario
-              },
-              orderItems: {
-                create: params.products.map((product) => ({
-                  product: {
-                    connect: { id: product.product_id }, // Conecta el producto
-                  },
-                  quantity: product.quantity || 1, // Cantidad del producto
-                })),
-              },
+                reference,
+                total: params.total, // Agregar el total de la orden
+                user: {
+                    connect: { id: params.user_id }, // Conectar la orden con el usuario
+                },
+                orderItems: {
+                    create: params.products.map((product) => ({
+                        product: {
+                            connect: { id: product.product_id }, // Conectar el producto
+                        },
+                        quantity: product.quantity || 1, // Cantidad del producto
+                    })),
+                },
             },
             include: {
-              orderItems: true, // Incluye los productos en la respuesta
+                orderItems: true, // Incluir los productos en la respuesta
             },
-          });
-
+        });
 
         res.status(200).json({
             status: "Success",
             message: "Se ha creado la orden",
             order
-        })
-    }
-    catch(error) {
+        });
+    } catch (error) {
         console.log(error);
         res.status(500).json({ status: "Error", message: "Error al crear la orden" });
     }
-}
+};
+
 
 
 const listOrders = async (req, res) => {
